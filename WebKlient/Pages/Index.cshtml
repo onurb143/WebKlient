@@ -1,0 +1,42 @@
+﻿@page
+@model WebKlient.Pages.IndexModel
+@{
+    ViewData["Title"] = "Disk Liste";
+}
+
+<h1>Disk Liste</h1>
+
+@if (Model.Disks.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Kapacitet</th>
+                <th>Status</th>
+                <th>Sti</th>
+                <th>Serienummer</th>
+                <th>Producent</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var disk in Model.Disks)
+            {
+                <tr>
+                    <td>@disk.DiskID</td>
+                    <td>@disk.Type</td>
+                    <td>@disk.Capacity GB</td>
+                    <td>@disk.Status</td>
+                    <td>@disk.Path</td>
+                    <td>@disk.SerialNumber</td>
+                    <td>@disk.Manufacturer</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Ingen diske fundet.</p>
+}
