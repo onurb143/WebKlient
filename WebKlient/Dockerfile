@@ -25,9 +25,10 @@ WORKDIR /app
 # Copy only the published output to the runtime container
 COPY --from=publish /app/publish .
 
+ENV ASPNETCORE_URLS http://+:5189
 # Expose necessary ports
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 5189
+EXPOSE 80
 
 # Set the entry point for the container
 ENTRYPOINT ["dotnet", "WebKlient.dll"]
