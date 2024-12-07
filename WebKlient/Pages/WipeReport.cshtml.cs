@@ -1,16 +1,20 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http;
 using System.Text.Json;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebKlient.Model;
+using WebKlient.Pages;
 
 namespace WebKlient.Pages
 {
-    public class DisksModel : PageModel
+    public class WipeReportsModel : PageModel
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public List<Disk> Disks { get; set; } = new List<Disk>();
+        public List<WipeReport> WipeReports { get; set; } = new List<WipeReport>();
 
-        public DisksModel(IHttpClientFactory httpClientFactory)
+        public WipeReportsModel(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
@@ -19,16 +23,17 @@ namespace WebKlient.Pages
         {
             try
             {
-                var client = _httpClientFactory.CreateClient("ApiClient");
-                var response = await client.GetAsync("disks"); // Matcher din API endpoint
+                var client = _httpClientFactory.CreateClient("ApiClient"); // Brug ApiClient
+                var response = await client.GetAsync("wipereports"); // Matcher API-endpointet
 
                 response.EnsureSuccessStatusCode();
+
                 var json = await response.Content.ReadAsStringAsync();
 
-                Disks = JsonSerializer.Deserialize<List<Disk>>(json, new JsonSerializerOptions
+                WipeReports = JsonSerializer.Deserialize<List<WipeReport>>(json, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
-                }) ?? new List<Disk>();
+                }) ?? new List<WipeReport>();
             }
             catch (Exception ex)
             {

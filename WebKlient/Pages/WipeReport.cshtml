@@ -1,0 +1,49 @@
+﻿@page
+@model WipeReportsModel
+@inject HttpClient Http
+@{
+    ViewData["Title"] = "Slette Rapporter";
+}
+
+
+<h3>Sletterapporter</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Job ID</th>
+            <th>Starttid</th>
+            <th>Sluttid</th>
+            <th>Status</th>
+            <th>Disk Type</th>
+            <th>Kapacitet</th>
+            <th>Serienummer</th>
+            <th>Producent</th>
+            <th>Slettemetode</th>
+            <th>Overskrivninger</th>
+            <th>Udført af</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var report in Model.WipeReports)
+          
+        {
+            <tr>
+                <td>@report.WipeJobId</td>
+                <td>@report.StartTime</td>
+                <td>@report.EndTime</td>
+                <td>@report.Status</td>
+                <td>@report.DiskType</td>
+                <td>@report.Capacity</td>
+                <td>@report.SerialNumber</td>
+                <td>@report.Manufacturer</td>
+                <td>@report.WipeMethodName</td>
+                <td>@report.OverwritePasses</td>
+                <td>@report.PerformedBy</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
