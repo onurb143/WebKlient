@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace WebKlient.Model
 {
@@ -21,6 +22,9 @@ namespace WebKlient.Model
 
         [StringLength(100)]
         public string? Manufacturer { get; set; }
+
+        [JsonIgnore] // Undgå serialization af WipeJobs i JSON
+        public ICollection<WipeJob> WipeJobs { get; set; }
 
     }
 }
