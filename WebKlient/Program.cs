@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization; // Til ReferenceHandler
@@ -13,25 +14,33 @@ if (string.IsNullOrEmpty(connectionString))
 }
 
 // Tilføj services
+// Registrer ApplicationDbContext til Identity
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 
+// Konfigurer ASP.NET Core Identity
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{
+    // Konfiguration for Identity (valgfrit)
+    options.SignIn.RequireConfirmedAccount = true;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Tilføj HttpClient
 builder.Services.AddHttpClient("ApiClient", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ApiUrl"] ?? "http://api:5002/api/");
 });
 
+// Tilføj controllere og JSON-serialization
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     });
 
-
-// Tilføj Razor Pages og MVC med JSON-serialization-konfiguration
+// Tilføj Razor Pages og MVC med JSON-konfiguration
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
@@ -45,6 +54,7 @@ builder.Services.AddControllersWithViews()
 
 var app = builder.Build();
 
+// Middleware til fejlbehandling
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();

@@ -1,40 +1,12 @@
 ﻿@page
 @model WebKlient.Pages.DisksModel
 @{
-    ViewData["Title"] = "Diske";
+    ViewData["Title"] = "Startside";
 }
 
-<h1>Diske</h1>
+<h1>Velkommen</h1>
 
-@if (Model.Disks == null || !Model.Disks.Any())
-{
-    <p>No data available.</p>
-}
-else
-{
-    <table border="1" style="width:100%; text-align:left;">
-        <thead>
-            <tr>
-                <th>DiskID</th>
-                <th>Type</th>
-                <th>Capacity</th>
-                <th>Path</th>
-                <th>SerialNumber</th>
-                <th>Manufacturer</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var disk in Model.Disks)
-            {
-                <tr>
-                    <td>@disk.DiskID</td>
-                    <td>@disk.Type</td>
-                    <td>@disk.Capacity</td>
-                    <td>@disk.Path</td>
-                    <td>@disk.SerialNumber</td>
-                    <td>@disk.Manufacturer</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<p>Du er er logget ind som " "</p>
+
+<p>På denne administrationsside er det muligt at få et overblik over registrede diske, slettemetoder og sletterapporter</p>
+

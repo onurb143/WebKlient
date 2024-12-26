@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copy project file and restore dependencies
@@ -19,16 +19,13 @@ WORKDIR "/src"
 RUN dotnet publish "WebKlient.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Stage 3: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 
 # Copy only the published output to the runtime container
 COPY --from=publish /app/publish .
 
-ENV ASPNETCORE_URLS http://+:5189
-# Expose necessary ports
+ENV ASPNETCORE_URLS=http://+:5189
 EXPOSE 5189
-EXPOSE 80
 
-# Set the entry point for the container
 ENTRYPOINT ["dotnet", "WebKlient.dll"]

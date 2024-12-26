@@ -1,10 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Text.Json;
 using WebKlient.Model;
-using System.Composition;
 
 namespace WebKlient.Pages.SletteRapporter
 {
