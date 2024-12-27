@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization; // Til ReferenceHandler
@@ -18,7 +17,6 @@ if (string.IsNullOrEmpty(connectionString))
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-
 // Konfigurer ASP.NET Core Identity
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
@@ -27,21 +25,20 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Tilføj HttpClient
+// Tilføj HttpClient med validering af ApiUrl
+var apiUrl = builder.Configuration["ApiUrl"];
+if (string.IsNullOrEmpty(apiUrl))
+{
+    apiUrl = "http://api:5002/api/";
+    Console.WriteLine("Warning: ApiUrl is not set. Using default: " + apiUrl);
+}
+
 builder.Services.AddHttpClient("ApiClient", client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["ApiUrl"] ?? "http://api:5002/api/");
+    client.BaseAddress = new Uri(apiUrl);
 });
 
-// Tilføj controllere og JSON-serialization
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-    });
-
 // Tilføj Razor Pages og MVC med JSON-konfiguration
-builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
@@ -51,7 +48,9 @@ builder.Services.AddControllersWithViews()
         // Valgfrit: Mere læsevenligt JSON-output
         options.JsonSerializerOptions.WriteIndented = true;
     });
+builder.Services.AddRazorPages();
 
+// Middleware og pipeline
 var app = builder.Build();
 
 // Middleware til fejlbehandling
@@ -65,13 +64,17 @@ else
     app.UseHsts();
 }
 
+// Middleware til HTTPS, statiske filer, routing og sikkerhed
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors("AllowApiOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Mapping af Razor Pages og API-controllere
 app.MapRazorPages();
-app.MapControllers(); // Sørger for at API-controllere også bliver tilgængelige
+app.MapControllers();
 
 // Start applikationen
 app.Run();
