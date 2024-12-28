@@ -29,13 +29,19 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 var apiUrl = builder.Configuration["ApiUrl"];
 if (string.IsNullOrEmpty(apiUrl))
 {
-    apiUrl = "http://api:5002/api/";
+    apiUrl = "https://api:5002/api/";
     Console.WriteLine("Warning: ApiUrl is not set. Using default: " + apiUrl);
 }
 
 builder.Services.AddHttpClient("ApiClient", client =>
 {
     client.BaseAddress = new Uri(apiUrl);
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    // Ignorer SSL-validering for selvsignerede certifikater
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
 });
 
 // Tilføj Razor Pages og MVC med JSON-konfiguration
@@ -68,7 +74,6 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseCors("AllowApiOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 
