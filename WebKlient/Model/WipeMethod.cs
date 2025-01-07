@@ -7,8 +7,7 @@ namespace WebKlient.Model
         [Key]
         public int WipeMethodID { get; set; }  // Primary Key
 
-        [Required]
-        public string Name { get; set; }   // Navn på slettemetoden
+        public required string Name { get; set; }   // Navn på slettemetoden
 
         public string? Description { get; set; }   // Beskrivelse af slettemetoden
 

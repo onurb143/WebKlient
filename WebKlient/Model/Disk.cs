@@ -14,13 +14,13 @@ namespace WebKlient.Model
         [Range(1, int.MaxValue, ErrorMessage = "Capacity must be greater than 0.")]
         public int Capacity { get; set; }
 
-        [StringLength(200)]
+        [StringLength(5)]
         public string? Path { get; set; }
 
-        [StringLength(100)]
-        public string? SerialNumber { get; set; }
+        [StringLength(18)]
+        public required string SerialNumber { get; set; }
 
-        [StringLength(100)]
+        [StringLength(50)]
         public string? Manufacturer { get; set; }
 
         [JsonIgnore] // Undgå serialization af WipeJobs i JSON

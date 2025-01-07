@@ -22,9 +22,9 @@ public class WipeJob
 
     [ForeignKey("WipeMethodId")]
     [JsonIgnore] // Forhindrer cyklus under serialisering
-    public virtual WipeMethod WipeMethod { get; set; }
+    public  virtual WipeMethod WipeMethod { get; set; }
 
-    public virtual ICollection<WipeReport> WipeReports { get; set; } // Relation til WipeReports
+    public  virtual ICollection<WipeReport> WipeReports { get; set; } // Relation til WipeReports
 
     public ICollection<LogEntry> LogEntries { get; set; } = new List<LogEntry>();
 }

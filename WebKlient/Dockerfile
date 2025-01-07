@@ -20,14 +20,5 @@ COPY --from=build /publish .
 # Kopier HTTPS-certifikatet
 COPY https/aspnetapp.pfx /app/https/
 
-# Konfigurer miljøvariabler for HTTPS
-ENV ASPNETCORE_URLS="http://+:5189;https://+:5199"
-ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/app/https/aspnetapp.pfx
-ENV ASPNETCORE_Kestrel__Certificates__Default__Password=Test1234!
-
-# Eksponer porte til HTTP og HTTPS
-EXPOSE 5189
-EXPOSE 5199
-
 # Start applikationen
 ENTRYPOINT ["dotnet", "WebKlient.dll"]
