@@ -54,7 +54,7 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// Middleware rækkefølge
+// Middleware rækkefølge!
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
