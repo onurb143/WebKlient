@@ -11,7 +11,7 @@ namespace WebKlient.Model
 
         public DateTime Timestamp { get; set; }
 
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         [ForeignKey("WipeJob")]
         public int WipeJobId { get; set; } // Fremmednøgle til WipeJob

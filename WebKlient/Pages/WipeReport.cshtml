@@ -1,49 +1,49 @@
 ﻿@page
 @model WipeReportsModel
 @inject HttpClient Http
+
 @{
+    // Indstiller sidens titel, som vises i browsertitlen og andre relevante steder
     ViewData["Title"] = "Slette Rapporter";
 }
 
-
 <h3>Sletterapporter</h3>
 
+<!-- Tabel til visning af slette-rapporter -->
 <table class="table">
     <thead>
+        <!-- Overskrifter til tabellens kolonner -->
         <tr>
-            <th>Job ID</th>
-            <th>Starttid</th>
-            <th>Sluttid</th>
-            <th>Status</th>
-            <th>Disk Type</th>
-            <th>Kapacitet</th>
-            <th>Serienummer</th>
-            <th>Producent</th>
-            <th>Slettemetode</th>
-            <th>Overskrivninger</th>
-            <th>Udført af</th>
+            <th>Job ID</th> <!-- Unik identifikator for hvert slettejob -->
+            <th>Starttid</th> <!-- Tidsstempel for sletteprocessens start -->
+            <th>Sluttid</th> <!-- Tidsstempel for sletteprocessens slut -->
+            <th>Status</th> <!-- Status for jobbet, f.eks. 'Completed' eller 'Failed' -->
+            <th>Disk Type</th> <!-- Disktypen, f.eks. SSD eller HDD -->
+            <th>Kapacitet</th> <!-- Diskens kapacitet i GB -->
+            <th>Serienummer</th> <!-- Unik identifikator for disken -->
+            <th>Producent</th> <!-- Navnet på diskproducenten -->
+            <th>Slettemetode</th> <!-- Navn på den anvendte slettemetode -->
+            <th>Overskrivninger</th> <!-- Antal passager udført under sletningen -->
+            <th>Udført af</th> <!-- Brugeren, der udførte sletningen -->
         </tr>
     </thead>
     <tbody>
-
         @foreach (var report in Model.WipeReports)
-          
         {
+            <!-- Indsætter værdier for hver række i tabellen -->
             <tr>
                 <td>@report.WipeJobId</td>
                 <td>@report.StartTime</td>
                 <td>@report.EndTime</td>
                 <td>@report.Status</td>
                 <td>@report.DiskType</td>
-                <td>@report.Capacity</td>
+                <td>@report.Capacity GB</td>
                 <td>@report.SerialNumber</td>
                 <td>@report.Manufacturer</td>
                 <td>@report.WipeMethodName</td>
                 <td>@report.OverwritePasses</td>
-
+                <td>@report.PerformedBy</td> <!-- Brugeren, der er logget ind og har udført jobbet -->
             </tr>
         }
     </tbody>
 </table>
-
-

@@ -1,20 +1,22 @@
 ﻿@page
-@model WebKlient.Pages.DisksModel
+@model WebKlient.Pages.DisksModel // Specificerer modellen, der bruges af denne Razor Page
 @{
-    ViewData["Title"] = "Diske";
+    ViewData["Title"] = "Diske"; // Sætter sidetitlen, som kan bruges i layoutet
 }
 
 <h1>Diske</h1>
 
-@if (Model.Disks == null || !Model.Disks.Any())
+@if (Model.Disks == null || !Model.Disks.Any()) // Tjekker, om der er data i Disks-listen
 {
-    <p>No data available.</p>
+    <p>No data available.</p> <!-- Viser en besked, hvis der ikke er nogen diske -->
 }
 else
 {
+    <!-- Viser en tabel, hvis der findes data -->
     <table border="1" style="width:100%; text-align:left;">
         <thead>
             <tr>
+                <!-- Tabeloverskrifter -->
                 <th>DiskID</th>
                 <th>Type</th>
                 <th>Capacity</th>
@@ -24,15 +26,16 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var disk in Model.Disks)
+            @foreach (var disk in Model.Disks) // Itererer gennem listen af diske og genererer tabelrækker
             {
                 <tr>
-                    <td>@disk.DiskID</td>
-                    <td>@disk.Type</td>
-                    <td>@disk.Capacity</td>
-                    <td>@disk.Path</td>
-                    <td>@disk.SerialNumber</td>
-                    <td>@disk.Manufacturer</td>
+                    <!-- Viser data for hver disk -->
+                    <td>@disk.DiskID</td> <!-- Diskens unikke ID -->
+                    <td>@disk.Type</td> <!-- Disktypen, fx HDD eller SSD -->
+                    <td>@disk.Capacity</td> <!-- Diskens kapacitet -->
+                    <td>@disk.Path</td> <!-- Diskens sti -->
+                    <td>@disk.SerialNumber</td> <!-- Diskens serienummer -->
+                    <td>@disk.Manufacturer</td> <!-- Diskens producent -->
                 </tr>
             }
         </tbody>

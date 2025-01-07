@@ -1,6 +1,4 @@
 ﻿using WebKlient.Model;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -13,7 +11,7 @@ public class WipeJob
 
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
-    public string Status { get; set; }
+    public string? Status { get; set; }
     public int DiskId { get; set; }
     public int WipeMethodId { get; set; }
 

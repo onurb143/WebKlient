@@ -10,7 +10,7 @@ namespace WebKlient.Model
         [Required]
         public string Name { get; set; }   // Navn på slettemetoden
 
-        public string Description { get; set; }   // Beskrivelse af slettemetoden
+        public string? Description { get; set; }   // Beskrivelse af slettemetoden
 
         public int OverwritePass { get; set; }   // Antal overskrivninger
 

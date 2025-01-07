@@ -1,34 +1,37 @@
 ﻿@page
 @model WebKlient.Pages.WipeMethodsModel
 @{
-    ViewData["Title"] = "Slettemetoder";
+    ViewData["Title"] = "Slettemetoder"; // Sætter sidetitlen til "Slettemetoder"
 }
-<h1>Slettemetoder</h1>
 
+<h1>Slettemetoder</h1>
 
 @if (Model.WipeMethods == null || !Model.WipeMethods.Any())
 {
+    // Hvis listen over slettemetoder er tom eller ikke indlæst, vis en besked
     <p>Øjeblik....</p>
 }
 else
 {
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Overwrite Pass</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.WipeMethods)
-        {
+    // Hvis slettemetoderne er indlæst, vis dem i en tabel
+    <table class="table">
+        <thead>
             <tr>
-                <td>@item.Name</td>
-                <td>@item.Description</td>
-                <td>@item.OverwritePass</td>
+                <th>Name</th> <!-- Kolonneoverskrift for slettemetodens navn -->
+                <th>Description</th> <!-- Kolonneoverskrift for beskrivelse -->
+                <th>Overwrite Pass</th> <!-- Kolonneoverskrift for antal overskrivninger -->
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.WipeMethods)
+            {
+                // Itererer gennem listen af slettemetoder og viser hver som en tabelrække
+                <tr>
+                    <td>@item.Name</td> <!-- Viser navnet på slettemetoden -->
+                    <td>@item.Description</td> <!-- Viser beskrivelsen af slettemetoden -->
+                    <td>@item.OverwritePass</td> <!-- Viser antal overskrivninger for slettemetoden -->
+                </tr>
+            }
+        </tbody>
+    </table>
 }
