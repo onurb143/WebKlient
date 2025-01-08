@@ -1,13 +1,31 @@
 ﻿@page
-@model WebKlient.Pages.DisksModel
+@model WebKlient.Pages.IndexModel
 @{
-    // Sætter sidens titel, som vises i browserfanen og kan bruges i layoutet
-    ViewData["Title"] = "Startside";
+    ViewData["Title"] = "JWT Generator";
 }
 
+<h1>JWT Generator</h1>
 
-<h1>Velkommen</h1>
+<p>Klik på knappen nedenfor for at generere en JWT, som kan bruges i resten af systemet.</p>
 
+<form method="post" asp-page-handler="FetchJwt">
+    <button type="submit">Hent JWT</button>
+</form>
 
-<p>På denne administrationsside er det muligt at få et overblik over registrede diske, slettemetoder og sletterapporter</p>
+@if (!string.IsNullOrEmpty(Model.JwtToken))
+{
+    <script>
+        // Gem JWT-token i Local Storage
+        localStorage.setItem('jwtToken', '@Model.JwtToken');
+        console.log('JWT gemt i Local Storage: @Model.JwtToken');
+    </script>
 
+    <h2>Din JWT</h2>
+    <textarea style="width: 100%; height: 200px;" readonly>@Model.JwtToken</textarea>
+}
+
+}
+else if (!string.IsNullOrEmpty(Model.Message))
+{
+    <p style="color: red;">@Model.Message</p>
+}

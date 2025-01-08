@@ -43,6 +43,8 @@ builder.Services.AddHttpClient("ApiClient", client =>
     ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
 });
 
+
+
 // Registrer Razor Pages og JSON-konfiguration
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
@@ -51,6 +53,20 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.WriteIndented = true;
     });
 builder.Services.AddRazorPages();
+
+// Konfigurer CORS (Cross-Origin Resource Sharing)
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? new[] { "https://api:5002", "https://web:5199" };
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins(allowedOrigins) // Angiv tilladte oprindelser
+              .AllowAnyMethod() // Tillad alle HTTP-metoder (GET, POST, PUT, DELETE)
+              .AllowAnyHeader() // Tillad alle headers
+              .AllowCredentials(); // Tillad cookies og autorisationsoplysninger
+    });
+});
+
 
 var app = builder.Build();
 
