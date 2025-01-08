@@ -21,11 +21,10 @@
     </script>
 
     <h2>Din JWT</h2>
+
     <textarea style="width: 100%; height: 200px;" readonly>@Model.JwtToken</textarea>
 }
 
-}
-else if (!string.IsNullOrEmpty(Model.Message))
-{
+
     <p style="color: red;">@Model.Message</p>
-}
+

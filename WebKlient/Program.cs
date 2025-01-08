@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Text.Json.Serialization;
 using WebKlient.Data;
 
@@ -40,8 +41,11 @@ builder.Services.AddHttpClient("ApiClient", client =>
 })
 .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
 {
-    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    UseCookies = true,
+    CookieContainer = new CookieContainer(),
+    ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true // Accepter alle certifikater (kun til udvikling)
 });
+
 
 
 
@@ -60,12 +64,13 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", policy =>
     {
-        policy.WithOrigins(allowedOrigins) // Angiv tilladte oprindelser
-              .AllowAnyMethod() // Tillad alle HTTP-metoder (GET, POST, PUT, DELETE)
-              .AllowAnyHeader() // Tillad alle headers
-              .AllowCredentials(); // Tillad cookies og autorisationsoplysninger
+        policy.WithOrigins("https://localhost:5199")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
+
 
 
 var app = builder.Build();
