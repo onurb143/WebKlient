@@ -75,14 +75,14 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Middleware rækkefølge!
+// Middleware rï¿½kkefï¿½lge!
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Kortlægning af endpoints
+// Kortlï¿½gning af endpoints
 app.MapRazorPages();
 app.MapControllers();
 
