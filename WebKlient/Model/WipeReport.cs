@@ -22,25 +22,25 @@ namespace WebKlient.Model
         public string? Status { get; set; }
 
         // Disktypen, fx "SSD" eller "HDD".
-        public required string DiskType { get; set; }
+        public string? DiskType { get; set; }
 
         // Diskens kapacitet i GB.
         public int Capacity { get; set; }
 
         // Diskens serienummer, bruges til unik identifikation.
-        public required string SerialNumber { get; set; }
+        public string? SerialNumber { get; set; }
 
         // Navnet på producenten af disken, fx "Samsung" eller "Western Digital".
         public string? Manufacturer { get; set; }
 
         // Navnet på den anvendte slettemetode, fx "Secure Erase" eller "Zero Fill".
-        public required string WipeMethodName { get; set; }
+        public string WipeMethodName { get; set; }
 
         // Antallet af overskrivningspasser, der blev udført som en del af sletningsmetoden.
         public int OverwritePasses { get; set; }
 
         // Brugeren, der udførte sletningen.
-        public string PerformedBy { get; set; }
+        public string? PerformedBy { get; set; }
 
         [ForeignKey("WipeJobId")]
         [JsonIgnore]

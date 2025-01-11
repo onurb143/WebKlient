@@ -18,7 +18,7 @@ namespace WebKlient.Model
         public string? Path { get; set; }
 
         [StringLength(18)]
-        public required string SerialNumber { get; set; }
+        public string? SerialNumber { get; set; }
 
         [StringLength(50)]
         public string? Manufacturer { get; set; }

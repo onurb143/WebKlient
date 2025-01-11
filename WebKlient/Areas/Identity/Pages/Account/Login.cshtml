@@ -1,5 +1,6 @@
 ﻿@page
-@model LoginModel
+
+@model WebKlient.Areas.Identity.Pages.Account.LoginModel
 
 @{
     ViewData["Title"] = "Log in";
@@ -46,7 +47,7 @@
             </form>
         </section>
     </div>
-    <div class="col-md-6 col-md-offset-2">
+    <div class="col-md-6">
         <section>
             <h3>Use another service to log in.</h3>
             <hr />
@@ -55,8 +56,10 @@
                 {
                     <div>
                         <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                article
+                                about setting up this ASP.NET application to support logging in via external services
+                            </a>.
                         </p>
                     </div>
                 }
@@ -64,12 +67,12 @@
                 {
                     <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                         <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
+                            @foreach (var provider in Model.ExternalLogins!)
+                            {
+                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                    @provider.DisplayName
+                                </button>
+                            }
                         </div>
                     </form>
                 }
@@ -77,6 +80,14 @@
         </section>
     </div>
 </div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="alert alert-success" role="alert">
+        You are logged in as @User.Identity.Name.
+        <a href="/Account/Logout" class="btn btn-link">Log out</a>
+    </div>
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
