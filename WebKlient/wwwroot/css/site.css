@@ -19,13 +19,10 @@ html {
 
 body {
     margin-bottom: 60px;
-    /* Tilføj dine baggrundsindstillinger her */
-    /*background-image: url('/images/background.jpg'); /* Sørg for, at billedet er i den korrekte mappe */
-    background-color: #F5F5DC; /* Hvid baggrund */
+    /* Brug sandfarve som baggrund */
+    background-color: #F4A300; /* Sandfarvet baggrund */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-color: #f0f0f0; /* Fallback-farve */
-
-
+    background-color: #F5F5DC; /* Hvis den ikke virker, kan vi bruge en lys beige som fallback */
 }
