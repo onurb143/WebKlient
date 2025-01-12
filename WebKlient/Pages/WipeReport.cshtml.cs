@@ -1,50 +1,71 @@
-using Microsoft.AspNetCore.Mvc.RazorPages; // Til Razor Pages
-using System.Text.Json; // Til JSON-serialisering og deserialisering
-using WebKlient.Model; // Indeholder modellen WipeReport
-
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
+using WebKlient.DTO;
 
 namespace WebKlient.Pages
 {
-    public class WipeReportsModel : PageModel
+    public class WipeReportModel : PageModel
     {
-        private readonly IHttpClientFactory _httpClientFactory; // Til oprettelse af HTTP-klienter
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public List<WipeReport> WipeReports { get; set; } = new List<WipeReport>(); // Liste til at gemme WipeReports-data
+        public List<WipeReportReadDto> WipeReports { get; set; } = new List<WipeReportReadDto>();
 
-        // Constructor for at injicere en HttpClientFactory
-        public WipeReportsModel(IHttpClientFactory httpClientFactory)
+        public WipeReportModel(IHttpClientFactory httpClientFactory)
         {
-            _httpClientFactory = httpClientFactory; // Gemmer den injicerede HttpClientFactory
+            _httpClientFactory = httpClientFactory;
         }
 
-        // Metode, der køres, når siden loades med en GET-anmodning
         public async Task OnGetAsync()
         {
             try
             {
-                // Opret en HTTP-klient ved hjælp af den named client "ApiClient"
                 var client = _httpClientFactory.CreateClient("ApiClient");
-
-                // Send en GET-anmodning til API'et på endpointet "WipeReports"
-                var response = await client.GetAsync("WipeReports");
-
-                // Sikrer, at HTTP-anmodningen lykkedes (kaster en undtagelse, hvis ikke)
+                var response = await client.GetAsync("wipereports");
                 response.EnsureSuccessStatusCode();
 
-                // Læs JSON-data fra API-svaret som en streng
                 var json = await response.Content.ReadAsStringAsync();
-
-                // Deserialiser JSON til en liste af WipeReport-objekter
-                WipeReports = JsonSerializer.Deserialize<List<WipeReport>>(json, new JsonSerializerOptions
+                WipeReports = JsonSerializer.Deserialize<List<WipeReportReadDto>>(json, new JsonSerializerOptions
                 {
-                    PropertyNameCaseInsensitive = true // Tillad ikke-sagsfølsomme JSON-egenskabsnavne
-                }) ?? new List<WipeReport>(); // Hvis deserialisering fejler, brug en tom liste
+                    PropertyNameCaseInsensitive = true
+                }) ?? new List<WipeReportReadDto>();
             }
             catch (Exception ex)
             {
-                // Log fejl, hvis der opstår en undtagelse
+                // Log fejl og vis venlig fejlmeddelelse til bruger
                 Console.WriteLine($"Error fetching data: {ex.Message}");
+                ModelState.AddModelError("", "Der opstod en fejl ved hentning af data.");
             }
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            try
+            {
+                var client = _httpClientFactory.CreateClient("ApiClient");
+
+                // Send DELETE-anmodning til API'et for at slette den valgte rapport
+                var response = await client.DeleteAsync($"wipereports/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    // Opdater WipeReports listen, så den er opdateret med den nyeste data
+                    await OnGetAsync();
+                    return RedirectToPage(); // Redirect til samme side for at opdatere UI
+                }
+                else
+                {
+                    // Hvis delete anmodningen mislykkes, vis en fejlmeddelelse
+                    ModelState.AddModelError("", "Der opstod en fejl ved sletning af rapporten.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Håndter fejl og log dem
+                Console.WriteLine($"Error deleting report: {ex.Message}");
+                ModelState.AddModelError("", "Der opstod en teknisk fejl ved sletning af rapporten.");
+            }
+
+            return Page(); // Retur til samme side, hvis der opstår en fejl
         }
     }
 }

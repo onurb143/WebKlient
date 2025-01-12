@@ -81,9 +81,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Kortl�gning af endpoints
-app.MapRazorPages();
+app.MapRazorPages();  // Kortlægging af Razor Pages direkte her
+app.MapFallbackToPage("/Jwt");
 app.MapControllers();
 
 app.Run();

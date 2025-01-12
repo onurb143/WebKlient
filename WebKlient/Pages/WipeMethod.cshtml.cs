@@ -1,51 +1,79 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
-using WebKlient.Model;
+using WebKlient.DTO;
 
 namespace WebKlient.Pages
 {
     public class WipeMethodsModel : PageModel
     {
-        // HttpClient-fabrik, bruges til at oprette HTTP-klienter til API-kald
         private readonly IHttpClientFactory _httpClientFactory;
 
         // Liste over slettemetoder, der skal vises på siden
-        public List<WipeMethod> WipeMethods { get; set; } = new List<WipeMethod>();
+        public List<WipeMethodReadDto> WipeMethods { get; set; } = new List<WipeMethodReadDto>();
 
-        // Constructor, der modtager en IHttpClientFactory for at muliggøre API-kald
+        // Den metode, der bliver redigeret (Kan fjernes helt nu, da vi ikke redigerer)
+        [BindProperty]
+        public WipeMethodReadDto WipeMethodToEdit { get; set; }
+
+        // Constructor, med afhængighed til IHttpClientFactory for API-kald
         public WipeMethodsModel(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
 
-        // GET-handler, der henter slettemetoder fra API'et
+        // Henter data om sletningsmetoder fra API'et
         public async Task OnGetAsync()
         {
             try
             {
-                // Opret en ny HttpClient fra fabrikken
                 var client = _httpClientFactory.CreateClient("ApiClient");
 
-                // Send en GET-forespørgsel til API-endpointet "WipeMethods"
-                var response = await client.GetAsync("WipeMethods");
+                // Sender GET-forespørgsel til API-endpointet "WipeMethods"
+                var response = await client.GetAsync("wipemethods");
 
-                // Sørg for, at HTTP-svaret har en successtatuskode
+                // Sørg for, at HTTP-svaret har en successstatuskode
                 response.EnsureSuccessStatusCode();
 
-                // Læs svaret som en JSON-streng
+                // Læs JSON som en string
                 var json = await response.Content.ReadAsStringAsync();
 
-                // Deserialiser JSON-strengen til en liste af WipeMethod-objekter
-                WipeMethods = JsonSerializer.Deserialize<List<WipeMethod>>(json, new JsonSerializerOptions
+                // Deserialiser JSON-strengen til en liste af WipeMethodReadDto-objekter
+                WipeMethods = JsonSerializer.Deserialize<List<WipeMethodReadDto>>(json, new JsonSerializerOptions
                 {
-                    PropertyNameCaseInsensitive = true // Ignorer store/små bogstaver i JSON-egenskabsnavne
-                }) ?? new List<WipeMethod>(); // Hvis deserialisering fejler, opret en tom liste
+                    PropertyNameCaseInsensitive = true
+                }) ?? new List<WipeMethodReadDto>();
             }
             catch (Exception ex)
             {
                 // Log fejl, hvis der opstår problemer under API-kaldet eller deserialiseringen
                 Console.WriteLine($"Error fetching data: {ex.Message}");
             }
+        }
+
+        // Håndterer sletning af en metode
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            try
+            {
+                var client = _httpClientFactory.CreateClient("ApiClient");
+
+                // Send DELETE-anmodning til API'et med den angivne metode ID
+                var response = await client.DeleteAsync($"wipemethods/{id}");
+                response.EnsureSuccessStatusCode();  // Tjek for succes
+
+                // Opdater listen af metoder efter sletning
+                await OnGetAsync();
+
+                // Fjern den valgte metode til redigering efter sletning
+                WipeMethodToEdit = null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting wipe method: {ex.Message}");
+            }
+
+            return Page();
         }
     }
 }

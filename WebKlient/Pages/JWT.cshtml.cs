@@ -5,11 +5,11 @@ using System.Text;
 
 namespace WebKlient.Pages
 {
-    public class IndexModel : PageModel
+    public class JWTModel : PageModel
     {
         private readonly HttpClient _httpClient;
 
-        public IndexModel(IHttpClientFactory httpClientFactory)
+        public JWTModel(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
@@ -101,7 +101,7 @@ namespace WebKlient.Pages
 
         public class TokenResponse
         {
-            public string Token { get; set; }
+            public string? Token { get; set; }
             public string? Error { get; set; }
         }
     }
