@@ -14,11 +14,6 @@
 
 @if (!string.IsNullOrEmpty(Model.JwtToken))
 {
-    <script>
-        // Gem JWT-token i Local Storage
-        localStorage.setItem('jwtToken', '@Model.JwtToken');
-        console.log('JWT gemt i Local Storage: @Model.JwtToken');
-    </script>
 
     <h2>Din JWT</h2>
 

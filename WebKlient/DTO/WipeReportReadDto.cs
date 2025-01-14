@@ -8,14 +8,11 @@ namespace WebKlient.DTO
 
         public DateTime StartTime { get; set; }
 
-        // Nullable EndTime - add logic in API to handle the cases
         public DateTime? EndTime { get; set; }
 
-        // Optional status
         [MaxLength(50, ErrorMessage = "Status cannot exceed 50 characters.")]
         public string? Status { get; set; }
 
-        // Nullable fields
         [MaxLength(50, ErrorMessage = "DiskType cannot exceed 50 characters.")]
         public string? DiskType { get; set; }
 

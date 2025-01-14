@@ -19,20 +19,20 @@ builder.WebHost.ConfigureKestrel(options =>
     }
 });
 
-// Konfigurer databaseforbindelse
+//  databaseforbindelse
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' ikke fundet.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-// Konfigurer Identity
+//  Identity
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Registrer HttpClient til API-kald
+//  HttpClient til API-kald
 var apiUrl = builder.Configuration["ApiUrl"] ?? "https://api:5002/api/";
 builder.Services.AddHttpClient("ApiClient", client =>
 {
@@ -49,7 +49,8 @@ builder.Services.AddHttpClient("ApiClient", client =>
 
 
 
-// Registrer Razor Pages og JSON-konfiguration
+
+//  Razor Pages og JSON-konfiguration
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
@@ -58,31 +59,31 @@ builder.Services.AddControllersWithViews()
     });
 builder.Services.AddRazorPages();
 
-// Konfigurer CORS (Cross-Origin Resource Sharing)
+//  CORS (Cross-Origin Resource Sharing)
 var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? new[] { "https://api:5002", "https://web:5199" };
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", policy =>
     {
-        policy.WithOrigins("https://localhost:5199")
+        policy.WithOrigins("https://localhost:5002", "https://localhost:5199")  // Tillad både API- og Web-klient oprindelser
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials();
+              .AllowCredentials();  // til cookies
     });
 });
 
 
 
+
 var app = builder.Build();
 
-// Middleware r�kkef�lge!
+// Middleware
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapRazorPages();  // Kortlægging af Razor Pages direkte her
+app.MapRazorPages();  
 app.MapFallbackToPage("/Jwt");
 app.MapControllers();
-
 app.Run();

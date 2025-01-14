@@ -27,7 +27,7 @@ else
                 <th>Slettemetode</th>
                 <th>Overskrivninger</th>
                 <th>Udført af</th>
-                <th>Vælg</th> <!-- Ny kolonne til handlinger -->
+                <th>Vælg</th> 
             </tr>
         </thead>
         <tbody>
@@ -46,7 +46,7 @@ else
                     <td>@report.OverwritePasses</td>
                     <td>@report.PerformedBy</td>
                     <td>
-                        <!-- Form til at slette rapporten -->
+                      
                         <form method="post" asp-page-handler="Delete" asp-route-id="@report.WipeJobId">
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Er du sikker på, at du vil slette denne rapport?')">Slet</button>
                         </form>

@@ -13,7 +13,7 @@ namespace WebKlient.Data
  /// Konfigurerer databaseindstillinger og initialiserer konteksten.
    
 
-        /// <param name="options">Databaseindstillinger leveret via dependency injection.</param>
+        /// <param name="options"
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

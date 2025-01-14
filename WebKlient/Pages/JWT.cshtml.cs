@@ -51,7 +51,7 @@ namespace WebKlient.Pages
                             HttpOnly = true,
                             Secure = !HttpContext.Request.IsHttps,
                             SameSite = SameSiteMode.Strict,
-                            Expires = DateTime.UtcNow.AddMinutes(60)
+                            Expires = DateTime.UtcNow.AddHours(2)
                         });
 
                     }

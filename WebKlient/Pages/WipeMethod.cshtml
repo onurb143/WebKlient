@@ -19,7 +19,7 @@ else
                 <th>Name</th>
                 <th>Description</th>
                 <th>Overwrite Pass</th>
-                <th>Vælg</th> <!-- Kolonne til handlinger -->
+                <th>Vælg</th> 
             </tr>
         </thead>
         <tbody>
@@ -30,7 +30,7 @@ else
                     <td>@item.Description</td>
                     <td>@item.OverwritePass</td>
                     <td>
-                        <!-- Knap til at slette en slettemetode -->
+                       
                         <form method="post" asp-page-handler="Delete">
                             <input type="hidden" name="id" value="@item.WipeMethodID" />
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Er du sikker på, at du vil slette denne metode?')">Slet</button>
