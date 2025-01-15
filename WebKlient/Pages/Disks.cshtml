@@ -1,0 +1,49 @@
+﻿@page
+@model WebKlient.Pages.DisksModel
+@using WebKlient.DTO
+
+@{
+    ViewData["Title"] = "Diske";
+}
+
+<h1>Diske</h1>
+
+@if (Model.Disks == null || !Model.Disks.Any())
+{
+    <p>Hent en JWT for at få adgang til ressourcen</p>
+}
+else
+{
+    <table border="1" style="width:100%; text-align:left;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Capacity</th>
+                <th>Path</th>
+                <th>Serial Number</th>
+                <th>Manufacturer</th>
+                <th>Vælg </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var disk in Model.Disks)
+            {
+                <tr>
+                    <td>@disk.DiskID</td>
+                    <td>@disk.Type</td>
+                    <td>@disk.Capacity</td>
+                    <td>@disk.Path</td>
+                    <td>@disk.SerialNumber</td>
+                    <td>@disk.Manufacturer</td>
+                    <td>
+                        <form method="post" asp-page-handler="Delete">
+                            <input type="hidden" name="id" value="@disk.DiskID" />
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Er du sikker på, at du vil slette denne disk - hvis den slettes vil alle tilknyttede sletterapporter også forsvinde?')">Slet</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

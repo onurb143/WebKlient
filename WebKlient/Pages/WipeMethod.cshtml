@@ -1,0 +1,43 @@
+﻿@page
+@model WebKlient.Pages.WipeMethodsModel
+@using WebKlient.DTO
+@{
+    ViewData["Title"] = "Slettemetoder";
+}
+
+<h1>Slettemetoder</h1>
+
+@if (Model.WipeMethods == null || !Model.WipeMethods.Any())
+{
+    <p>Hent en JWT for at få adgang til ressourcen</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Overwrite Pass</th>
+                <th>Vælg</th> 
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.WipeMethods)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.OverwritePass</td>
+                    <td>
+                       
+                        <form method="post" asp-page-handler="Delete">
+                            <input type="hidden" name="id" value="@item.WipeMethodID" />
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Er du sikker på, at du vil slette denne metode?')">Slet</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
