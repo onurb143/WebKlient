@@ -3,8 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebKlient", "WebKlient.csproj", "{F7A398F4-31B3-49EA-BC98-0831A0819E87}"
-EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebKlient", "..\WebKlient\WebKlient\WebKlient.csproj", "{D0E3D52D-3AB5-45B5-87F4-1837BCFC6153}"
+
+
 
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
